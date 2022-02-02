@@ -8,7 +8,7 @@
 
 /* pieces are div within game table cells: draw as colored circles */
 
-.playerPiece {
+.piece {
   /* TODO: make into circles */
   margin: 5px;
   width: 80%;
@@ -17,11 +17,11 @@
 }
 
 /* TODO: make pieces red/blue,  depending on player 1/2 piece */
-.playerPiece.player1 {
+.piece.player1 {
   background-color: red;
 }
 
-.playerPiece.player2 {
+.piece.player2 {
   background-color: blue;
 }
 
@@ -34,3 +34,9 @@
 #column-top td:hover {
   background-color: gold;
 }
+
+
+/* If you change the .piece divs to be positioned absolutely, 
+you can animate the top CSS property to animate the pieces so they appear to drop down. 
+This is tricky, but will give you a chance to play with animations, as well as working with relative/absolute positioning. */
+

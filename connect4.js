@@ -1,8 +1,10 @@
 const WIDTH = 7;
 const HEIGHT = 6;
 
-const currPlayer = 1; // active player: 1 or 2
-const board = []; // array of rows, each row is array of cells  (board[y][x])
+
+let currPlayer = 1; // active player: 1 or 2
+let board = []; // array of rows, each row is array of cells  (board[y][x])
+
 
 //create in-JS board structure:
 //set "board" to empty HEIGHT x WIDTH matrix array
@@ -11,6 +13,7 @@ function makeBoard() {
     board.push(Array.from({ length: WIDTH }));
   }
 }
+
 
 //makeHtmlBoard: make HTML table and row of column tops
 //set the board variable to the HTML board DOM node
@@ -55,7 +58,7 @@ function findSpotForCol(x) {
 
 //placeInTable: update DOM to place piece into HTML table of board
 function placeInTable(y, x) {
-  // TODO: make a div and insert into correct table cell
+  //makes a div and inserts into correct table cell
   const playerPiece = document.createElement("div")
   playerPiece.classList.add('piece')
   playerPiece.classList.add(`player${currPlayer}`)
@@ -64,48 +67,46 @@ function placeInTable(y, x) {
   play.append(playerPiece);
 }
 
-/** endGame: announce game end */
-
+//endGame: announce game end
 function endGame(msg) {
-  // TODO: pop up alert message
+  //pop up alert message
+  alert(msg);
 }
 
-/** handleClick: handle click of column top to play piece */
-
+//handleClick: handle click of column top to play piece 
 function handleClick(evt) {
-// this never updates the board variable with the player #. Fix.
-// add a check for “is the entire board filled” [hint: the JS every method on arrays would be especially nice here!]
-// add code to switch currPlayer between 1 and 2. This would be a great place for a ternary function.
-
   // get x from ID of clicked cell
-  const x = document.getElementById("column-top");
+  const x = evt.target.id;
 
-  // get next spot in column (if none, ignore click)
+  //get next spot in column (if none, ignore click)
   const y = findSpotForCol(x);
   if (y === null) {
     return;
   }
 
-  board.classList.add(`player${currPlayer}`);
-
-  // place piece in board and add to HTML table
-  // TODO: add line to update in-memory board
+  //place piece in board and add to HTML table
+  //updates in-memory board
   placeInTable(y, x);
+  board[y][x] = currPlayer;
 
-  // check for win
+  //check for win
   if (checkForWin()) {
     return endGame(`Player ${currPlayer} won!`);
   }
 
-  // check for tie
-  // TODO: check if all cells in board are filled; if so call, call endGame
+  //check for tie
+  //checks if all cells in board are filled; if so call, call endGame
+  if (board.every(row => row.every(cell => cell))) {
+    return endGame('Tie!');
+  }
 
-  // switch players
-  // TODO: switch currPlayer 1 <-> 2
+  //switch players
+  currPlayer = currPlayer === 1 ? 2 : 1;
 }
 
-/** checkForWin: check board cell-by-cell for "does a win start here?" */
 
+
+//checkForWin: check board cell-by-cell for "does a win start here?"
 function checkForWin() {
   function _win(cells) {
     // Check four cells to see if they're all color of current player
@@ -122,8 +123,8 @@ function checkForWin() {
     );
   }
 
-  // TODO: read and understand this code. Add comments to help you.
-
+  //TODO: read and understand this code. Add comments to help you.
+  //searches for cells that are adjacent to each other, either horizontal/vertical/diagonal
   for (var y = 0; y < HEIGHT; y++) {
     for (var x = 0; x < WIDTH; x++) {
       var horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
